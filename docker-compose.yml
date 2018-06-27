@@ -1,0 +1,33 @@
+version: "3.5"
+
+services:
+  db:
+    build: ./database
+    image: mysql:5.7
+    restart: always
+    container_name: ${MYSQL_HOST}
+    volumes:
+      - ./database/data:/var/lib/mysql
+    ports:
+      - "${MYSQL_PORT}:${MYSQL_PORT}"
+    environment:
+      MYSQL_TCP_PORT: ${MYSQL_PORT}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DB_NAME}
+
+  backend:
+    build: ./backend
+    image: node:9-alpine
+    working_dir: /app
+    restart: always
+    container_name: backend
+    links:
+      - db:${MYSQL_HOST}
+    depends_on:
+      - db
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - ./backend:/app
+    command: 'yarn run start'
+    env_file: .env
