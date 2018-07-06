@@ -1,10 +1,22 @@
 version: "3.5"
 
 services:
+  admin:
+    image: phpmyadmin/phpmyadmin:latest
+    links:
+     - db:${MYSQL_HOST}
+    depends_on:
+     - db
+    ports:
+     - "8080:80"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      PMA_HOST: ${MYSQL_HOST}
+      PMA_PORT: ${MYSQL_PORT}
+
   db:
     build: ./database
     image: mysql:5.7
-    restart: always
     container_name: ${MYSQL_HOST}
     volumes:
       - ./database/data:/var/lib/mysql
@@ -29,5 +41,7 @@ services:
       - "${PORT}:${PORT}"
     volumes:
       - ./backend:/app
-    command: 'yarn run start'
+    expose:
+      - "${PORT}"
+    command: 'yarn run start:dev'
     env_file: .env

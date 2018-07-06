@@ -4,19 +4,23 @@
     "declaration": false,
     "noImplicitAny": false,
     "removeComments": true,
-    "noLib": false,
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
-    "target": "es6",
+    "lib": [
+      "es2016"
+    ],
+    "target": "es2016",
     "sourceMap": true,
     "allowJs": true,
     "outDir": "./dist",
     "baseUrl": "./src"
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "ormconfig.ts",
+    "migration/*"
   ],
   "exclude": [
     "node_modules",

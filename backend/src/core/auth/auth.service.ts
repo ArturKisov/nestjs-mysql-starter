@@ -1,10 +1,10 @@
-import * as jwt from "jsonwebtoken";
-import { HttpException, Injectable, HttpStatus } from "@nestjs/common";
-import { JwtPayload } from "./interafaces/jwt-payload.interface";
-import { UserService } from "../user/user.service";
-import { CreateUserDto } from "../user/dto/create-user.dto";
-import { AuthCredentDto } from "./dto/auth-credent.dto";
-import * as bcrypt from "bcryptjs";
+import * as jwt from 'jsonwebtoken';
+import { HttpException, Injectable, HttpStatus } from '@nestjs/common';
+import { JwtPayload } from './interafaces/jwt-payload.interface';
+import { UserService } from '../user/user.service';
+import { CreateUserDto } from '../user/dto/create-user.dto';
+import { AuthCredentDto } from './dto/auth-credent.dto';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
@@ -23,15 +23,14 @@ export class AuthService {
 
     async auth(cred: AuthCredentDto) {
         return await this.userService.findOneByUsername(cred.username, true).then(async (user) => {
-            let match = await bcrypt.compare(cred.password, user.password);
-            user = await this.userService.findById(user.id);
+            let match = await bcrypt.compare(cred.password, user.password)
             if (match) {
                 return {
                     Token: this.createToken(user),
                     User: await this.userService.findById(user.id),
                 }
             } else {
-                throw new HttpException("Password or username is not validate", HttpStatus.FORBIDDEN);
+                throw new HttpException('Password or username is not validate', HttpStatus.FORBIDDEN);
             }
         })
     }

@@ -5,11 +5,15 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
-    "start:dev": "nodemon",
+    "start:dev": "nodemon --inspect=56745",
     "prestart:prod": "rm -rf dist && tsc",
     "start:prod": "node dist/main.js",
     "start:hmr": "node dist/server",
-    "webpack": "webpack --config webpack.config.js"
+    "webpack": "webpack --config webpack.config.js",
+    "migrate:create": "ts-node ./node_modules/.bin/typeorm migration:create",
+    "migrate:generate": "ts-node ./node_modules/.bin/typeorm migration:generate",
+    "migrate:run": "ts-node ./node_modules/.bin/typeorm migration:run",
+    "migrate:revert": "ts-node ./node_modules/.bin/typeorm migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^5.0.0",
